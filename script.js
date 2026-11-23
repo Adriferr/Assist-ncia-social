@@ -6,14 +6,19 @@
 
     //dados iniciais
     const INICIAL = [
-        {date: '2026-11-10', cestas:35, almocos:120},
-        {date: '2026-11-09', cestas:25, almocos:130},
-        {date: '2026-11-08', cestas:40, almocos:150}
+        {date: '2026-11-10', cestas:35, refeições:120},
+        {date: '2026-11-09', cestas:25, refeições:130},
+        {date: '2026-11-08', cestas:40, refeições:150}
     ];
+
+    const limpar = lista => Array.isArray(lista)
+        ? lista.filter(r => r && /^\d{4}-\d{2}-\d{2}$/.test(r.date))
+               .map(r => ({date: r.date, cestas: Math.max(0, parseInt(r.cestas) || 0), refeicoes: Math.max(0, parseInt(r.refeicoes) || 0)}))
+        : null;
 
     let records;
     try{
-        records = JSON.parse(localStorage.getItem('as-records')) || INICIAL; 
+        records = limpar(JSON.parse(localStorage.getItem('as-records'))) || INICIAL; 
     }catch {
             records = INICIAL;
     }
@@ -36,7 +41,7 @@
         const el = $('toast'); el.textContent = t;
         el.classList.add('show'); clearTimeout(toast.h); toast.h = setTimeout(() => el.classList.remove('show'), 2200); }
         function mensagem(t, cls=''){
-            const el = $('msg'); el.textContent= t; el.className = 'mensagem' + cls;
+            const el = $('mensagem'); el.textContent= t; el.className = 'mensagem ' + cls;
     }
 
     //cabeçalho e filtros
@@ -50,7 +55,7 @@
         const yes = new Set([now.getFullYear(), ...records.map(r => +r.date.slice(0,4))]);
         const cur = $('fAno').value;
         $('fAno').innerHTML = [...yes].sort((a, b) => b-a).map(y => `<option>${y}</option>`).join('');
-        $('fAno').value = cur && ys.has(+cur) ? cur : now.getFullYear();
+        $('fAno').value = cur && yes.has(+cur) ? cur : now.getFullYear();
     }
     fillYears();
 
@@ -63,7 +68,7 @@
             inp.value = Math.max(0, (parseInt(inp.value) || 0) + +b.dataset.d);
         });
     });
-    ['cestas','almocos'].forEach(id => {
+    ['cestas','refeicoes'].forEach(id => {
         $(id).addEventListener('input', e => {
             if(e.target.value <0) e.target.value =0;
         });
@@ -75,21 +80,21 @@
         editing = null;
         $('date').value = todayISO();
         $('cestas').value = 0;
-        $('almocos').value = 0;
+        $('refeicoes').value = 0;
         $('salvarLabel').textContent = 'Salvar Registro';
     }
     $('salvar').addEventListener('click', () =>{
         const date = $('date').value;
         const cestas = parseInt($('cestas').value) || 0;
-        const almocos = parseInt($('almocos').value) || 0;
-        if (!date) return mensagem('informe a data do atendimento.', 'err');
-        if (cestas === 0 && almocos === 0) return mensagem('Informe ao menos uma cesta ou um almoço.', 'err');
+        const refeicoes = parseInt($('refeicoes').value) || 0;
+        if (!date) return mensagem('Informe a data do atendimento.', 'err');
+        if (cestas === 0 && refeicoes === 0) return mensagem('Informe ao menos uma cesta ou uma refeição.', 'err');
 
         const dup = records.find(r => r.date === date && r.date !== editing);
         if (dup && !confirm(`Já existe um registro em ${br(date)}. Deseja substituí-lo?`)) return;
 
         records = records.filter(r => r.date !== date && r.date !== editing);
-        records.push({date, cestas, almocos});
+        records.push({date, cestas, refeicoes});
         records.sort((a,b) => b.date.localeCompare(a.date));
         persist();
 
@@ -112,11 +117,10 @@
 
         $('linhas').innerHTML = slice.length ? slice.map(r => `
         <tr>
-            <td>${br(r.date)}</td><td>${r.cestas}</td><td>${r.almocos}</td>
-            <td class="actions">
+            <td>${br(r.date)}</td><td>${r.cestas}</td><td>${r.refeicoes}</td>
+            <td><div class="acoes">
                 <button class="btn edit" data-edit="${r.date}"><svg viewBox="0 0 24 24"><use href="#i-edit"/></svg><span>Editar</span></button>
-                <button class="btn deletar" data-del="${r.date}"><svg viewBox="0 0 24 24"><use href="#i-trash"/></svg><span>Excluir</span></button>
-            </td>
+                <button class="btn deletar" data-del="${r.date}"><svg viewBox="0 0 24 24"><use href="#i-trash"/></svg><span>Excluir</span></button></div></td>
         </tr>`).join('') : `<tr><td colspan="4" class="empty">Nenhum registro neste mês. Salve o primeiro atendimento acima.</td></tr>`;
 
 
@@ -128,17 +132,32 @@
 
         //relatório
         $('rCestas').textContent = list.reduce((s,r) => s + r.cestas, 0);
-        $('rAlmocos').textContent = list.reduce((s,r) => s + r.almocos, 0);
+        $('rRefeicoes').textContent = list.reduce((s,r) => s + r.refeicoes, 0);
         $('rDias').textContent = list.length;
     }
+
+    //gráficos
+
+    
+
+
+    document.querySelectorAll('.filtro-grafico').forEach(botao =>{
+        botao.addEventListener('click', () =>{
+            const tipo = botao.dataset.tipo;
+
+            document.querySelectorAll('filtro-grafico').forEach(b => b.classList.remove('ativo'));
+
+            botao.classList.add('ativo');
+        })
+    })
 
     $('linhas').addEventListener('click', e => {
         const ed = e.target.closest('[data-edit]'), del = e.target.closest('[data-del]');
         if (ed) {
             const r = records.find(x => x.date === ed.dataset.edit);
-            editing = r.date; $('date').value = r.date; $('cestas').value = r.cestas; $('almocos').value = r.almocos;
+            editing = r.date; $('date').value = r.date; $('cestas').value = r.cestas; $('refeicoes').value = r.refeicoes;
             $('salvarLabel').textContent = 'Atualizar Registro';
-            msg(`Editando o registro de ${br(r.date)}.`);
+            mensagem(`Editando o registro de ${br(r.date)}.`);
             show('dashboard'); window.scrollTo({top:0, behavior:'smooth'});
         }
         if (del && confirm(`Excluir o registro de ${br(del.dataset.del)}?`)) {
@@ -148,7 +167,7 @@
         }
     })
 
-    $('pager').addEventListener('click', e => {
+    $('pagina').addEventListener('click', e => {
          const b = e.target.closest('[data-p]'); if (b && !b.disabled) 
             { page = +b.dataset.p; render(); } 
         });
@@ -158,7 +177,7 @@
     // Navegação
 
     function show(v){
-        document.querySelectorAll('.visual').forEach(s => s.classList.toggle('apresentacao', s.id === 'v-' + v));
+        document.querySelectorAll('.tela').forEach(s => s.classList.toggle('ativa', s.id === 'v-' + v));
         document.querySelectorAll('.item-nav[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === v));
     }
     document.querySelectorAll('.item-nav[data-view]').forEach(b => b.addEventListener('click', () => show(b.dataset.view)));
@@ -188,10 +207,10 @@
     }
 
     $('togglePw').addEventListener('click', () => {
-        const show = $('lPass').type === 'password';
-        $('lPass').type = show ? 'text' : 'password';
-        $('togglePw').textContent = show ? 'Ocultar' : 'Mostrar';
-        $('togglePw').setAttribute('aria-label', show ? 'Ocultar senha' : 'Mostrar senha');
+        const visivel = $('lPass').type === 'password';
+        $('lPass').type = visivel ? 'text' : 'password';
+        $('togglePw').textContent = visivel ? 'Ocultar' : 'Mostrar';
+        $('togglePw').setAttribute('aria-label', visivel ? 'Ocultar senha' : 'Mostrar senha');
     });
 
     $('loginForm').addEventListener('submit', e => {
@@ -219,8 +238,10 @@
     });
 
     $('logout').addEventListener('click', () => {
-        clearSession(); resetForm(); msg(''); show('dashboard'); applySession(null);
+        clearSession(); resetForm(); mensagem(''); show('dashboard'); applySession(null);
     });
+
+    $('btnMenu').addEventListener('click', () => document.body.classList.toggle('menu-oculto'));
 
     applySession(getSession());
     render();

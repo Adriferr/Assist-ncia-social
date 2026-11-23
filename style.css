@@ -1,11 +1,11 @@
 :root{
-    --navy:#0f2d5e; 
-    --navy-dark:#0b2250; 
-    --navy-soft:#1c4580;
+    --orange:#E45F02; 
+    --black:#000000; 
+    --navy-soft:#f5a000;
     --bg:#f3f6fb;
     --card:#fff;
     --line: #d9e1ee;
-    --text: #14264a;
+    --text: #000000;
     --muted: #5d6b86;
     --amber: #f5a000;
     --amber-bg: #fff6e5;
@@ -39,9 +39,142 @@ button{
     outline-offset: 2px;
 }
 
+/*.login{
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    grid-template-columns: 1fr 1fr;
+}
+
+body.locked .login{ 
+    display: grid; 
+}
+
+body.locked .menuLateral, body.locked .main{ 
+    display: none; 
+}
+
+.login-art{
+    background: var(--black);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+}
+
+.login-art svg{ 
+    width: 150px; 
+    height: auto; 
+}
+
+.login-art h1{ 
+    font-size: 44px; 
+    line-height: 1.05; 
+    margin-top: 14px; 
+}
+
+.login-art p{ 
+    font-size: 18px; 
+    margin-top: 12px; 
+    opacity: .9; 
+}
+
+.login-card{
+    align-self: center;
+    justify-self: center;
+    width: min(420px, 88%);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 40px 0;
+}
+.login-card h2{ 
+    font-size: 34px; 
+}
+
+.login-card .sub{ 
+    color: var(--muted); 
+    font-size: 17px; 
+    margin-bottom: 18px; 
+}
+
+.login-card label{ 
+    font-weight: 600; 
+    font-size: 16px; 
+    margin-top: 12px; 
+}
+
+.login-card input[type=text], .login-card input[type=password]{
+    width: 100%;
+    height: 54px;
+    font: 500 19px Inter, sans-serif;
+    color: var(--text);
+    background: #fff;
+    border: 1px solid #b7c2d6;
+    border-radius: 10px;
+    padding: 0 16px;
+}
+
+.pw{ 
+    position: relative; 
+}
+
+.pw input { 
+    padding-right: 92px !important; 
+}
+
+.pw button{
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    height: 38px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--bg);
+    color: var(--orange);
+    font-weight: 500;
+    font-size: 15px;
+}
+
+.login-card .chk{ 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    font-weight: 400; 
+    margin-top: 14px; 
+}
+
+.login-card .chk input{ 
+    width: 18px; 
+    height: 18px; 
+}
+
+.login-card .mensagem{ 
+    text-align: left; 
+    margin-top: 8px; 
+}
+
+.login .salvar{ 
+    height: 56px; 
+    font-size: 22px; 
+    margin-top: 8px; 
+}
+
+.hint{ 
+    margin-top: 18px; 
+    font-size: 14px; 
+    color: var(--muted); 
+    text-align: center; 
+}*/
+
+
 .menuLateral{
     width: 245px;
-    background: var(--navy-dark);
+    background: var(--black);
     color: #fff;
     display: flex;
     flex-direction: column;
@@ -52,10 +185,14 @@ button{
     height: 100vh;
 }
 
+img{
+    width: 150px;
+}
+
 .brand{
     text-align: center;
     padding-bottom: 28px;
-    border-bottom: 1px solid var(--navy-soft);
+    border-bottom: 1px solid var(--orange);
     margin: 0 10px;
 }
 
@@ -72,7 +209,7 @@ button{
 }
 
 .brand p{
-    font-size: 13px;
+    font-size: 18px;
     margin-top: 8px;
     opacity: .9;
 }
@@ -110,12 +247,12 @@ nav{
 }
 
 .item-nav.active{
-    background: var(--navy-soft);
+    background: var(--orange);
     font-weight: 500;
 }
 
 .nav-sep{
-    border-top: 1px solid var(--navy-soft);
+    border-top: 1px solid var(--orange);
     margin: 22px 10px 14px;
 }
 
@@ -139,7 +276,7 @@ nav{
 .btn-icone{
     background: none;
     border: 0;
-    color: var(--navy);
+    color: var(--orange);
     padding: 4px;
 }
 
@@ -184,7 +321,7 @@ svg.i{
 }
 
 .painel-head{
-    background: var(--navy);
+    background: var(--orange);
     color: #fff;
     display: flex;
     align-items: center;
@@ -193,25 +330,9 @@ svg.i{
     height: 88px;
 }
 
-.painel-head .small{
-    height: 70px;
-    padding: 0 26px;
-    gap: 16px;
-}
-
 .painel-head h2{
     font-size: 32px;
     font-weight: 600;
-}
-
-.painel-head .small h2{
-    height: 70px;
-    padding: 0 26px;
-    gap: 16px;
-}
-
-.painel-head .big{
-    font-size: 42px;
 }
 
 .painel-corpo{
@@ -266,7 +387,7 @@ svg.i{
     border-color: var(--amber-line);
 }
 
-.contadorAlmoco{
+.contadorRefeicao{
     background: var(--blue-bg);
     border-color: var(--blue-line);
 }
@@ -284,8 +405,8 @@ svg.i{
     color: var(--amber);
 }
 
-.contadorAlmoco h3 svg{
-    color: var(--navy);
+.contadorRefeicao h3 svg{
+    color: var(--orange);
 }
 
 .contador h3 svg{
@@ -308,13 +429,13 @@ svg.i{
     border-radius: 50%;
     border: 1px solid #b7c2d6;
     background:#fff;
-    color: var(--navy);
+    color: var(--orange);
     font-size: 26px;
     line-height: 1;
 }
 
 .botoes button:hover{
-    background: var(--navy);
+    background: var(--orange);
     color: #fff;
 }
 
@@ -324,7 +445,7 @@ svg.i{
     background: transparent;
     text-align: center;
     font: 700 78px/1.1 Inter, sans-serif;
-    color: var(--navy);
+    color: var(--orange);
     -moz-appearance: textfield;
 }
 
@@ -332,7 +453,7 @@ svg.i{
     -webkit-appearance: none;
 }
 
-.contadorPequeno{
+.contador small{
     font-size:19px;
 }
 
@@ -340,7 +461,7 @@ svg.i{
     margin:22px 0 0;
     width: 100%;
     height: 68px;
-    background: var(--navy);
+    background: var(--orange);
     color: #fff;
     border:0;
     border-radius: 10px;
@@ -375,6 +496,22 @@ svg.i{
 
 .mensagem.ok{
     color: #17803d;
+}
+
+.painel-head-pequeno{
+    background: var(--orange);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 26px;
+    height: 70px;
+}
+
+.painel-head-pequeno h2{
+    font-size: 27px;
+    font-weight: 600;
+    margin-right: auto;
 }
 
 .filtros{
@@ -432,7 +569,7 @@ th:last-child{
     text-align: center;
 }
 
-td.actions{
+.acoes{
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -460,7 +597,7 @@ td.actions{
 }
 
 .btn.edit{
-    background: var(--red);
+    background: var(--orange);
 }
 
 .btn.edit:hover{
@@ -472,6 +609,14 @@ td.actions{
 }
 
 .btn.deletar:hover{
+    background: #a81f1f;
+}
+
+.btn-deletar{
+    background: var(--red);
+}
+
+.btn-deletar:hover{
     background: #a81f1f;
 }
 
@@ -507,9 +652,9 @@ td.actions{
 }
 
 .pagina button.on{
-    background: var(--navy);
+    background: var(--orange);
     color: #fff;
-    border-color: var(--navy);
+    border-color: var(--orange);
     font-weight: 600;
 }
 
@@ -520,11 +665,12 @@ td.actions{
 
 /* outras telas */
 
-.visual{
+
+.tela{
     display: none;
 }
 
-.apresentacao{
+.tela.ativa{
     display: flex;
     flex-direction: column;
     gap: 26px;
@@ -555,7 +701,48 @@ td.actions{
 .sumario b{
     display: block;
     font-size: 44px;
-    color: var(--navy);
+    color: var(--orange);
+}
+
+.grafico-painel{
+    margin-top: 20px;
+}
+
+.grafico-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.grafico-header h2{
+    margin: 0;
+}
+
+.grafico-header p{
+    margin: 5px 0 0;
+    color: var(--text-muted);
+}
+
+.filtros-grafico{
+    display: flex;
+    gap: 8px;
+}
+
+.filtro-grafico{
+    padding: 8px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    cursor: pointer;
+}
+
+.grafico-container{
+    position: relative;
+    width: 100%;
+    height: 320px;
 }
 
 /* Toast */
@@ -564,7 +751,7 @@ td.actions{
     position: fixed;
     right: 24px;
     bottom: 24px;
-    background: var(--navy);
+    background: var(--orange);
     color: #fff;
     padding: 14px 20px;
     border-radius: 10px;
@@ -578,4 +765,114 @@ td.actions{
 .toast.show{
     opacity: 1;
     transform: none;
+}
+
+@media(max-width: 1100px){
+    .painel-head h2{
+        font-size: 26px;
+    }
+
+    .form-grid{
+        grid-template-columns: 1fr 1fr;
+    }
+    .campoData{
+        grid-column: 1 / -1;
+        padding: 0;
+    }
+
+    th, td{
+        font-size: 18px;
+        padding: 0 12px;
+    }
+}
+
+@media(max-width: 780px){
+    body{
+        flex-direction: column;
+    }
+
+    .menuLateral{
+        width: 100%;
+        height: auto;
+        position: static;
+        padding: 16px;
+    }
+
+    .brand svg, brand p{
+        display: none;
+    }
+
+    .brand{
+        padding-bottom: 12px;
+        border: 0;
+    }
+
+    .brand h1{
+        font-size: 22px;
+    }
+
+    nav{
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 6px;
+    }
+
+    .item-nav{
+        width: auto;
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+
+    .nav-sep{
+        display: none;
+    }
+
+    .topBar{
+        padding: 0 16px;
+        height: 64px;
+    }
+
+    .today{
+        display: none;
+    }
+
+    .conteudo{
+        padding: 16px;
+    }
+
+    .form-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .botoes input{
+        font-size: 60px;
+    }
+
+    .painel-head-pequeno{
+        flex-wrap: wrap;
+        height: auto;
+        padding: 14px 16px;
+    }
+
+    .filtros, .filtros select{
+        font-size: 16px;
+    }
+
+    .btn span{
+        display: none;
+    }
+
+    .btn{
+        padding: 0 10px;
+    }
+
+    .tabela{
+        overflow-x: auto;
+    }
+}
+
+@media(prefers-reduced-motion: reduce){
+    .toast{
+        transition: none;
+    }
 }
