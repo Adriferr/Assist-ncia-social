@@ -6,14 +6,14 @@
 
     //dados iniciais
     const INICIAL = [
-        {date: '2026-11-10', cestas:35, refeições:120},
-        {date: '2026-11-09', cestas:25, refeições:130},
-        {date: '2026-11-08', cestas:40, refeições:150}
+        {date: '2026-11-10', cestas:35, refeições:120, brinquedos:50},
+        {date: '2026-11-09', cestas:25, refeições:130, brinquedos:30},
+        {date: '2026-11-08', cestas:40, refeições:150, brinquedos:40}
     ];
 
     const limpar = lista => Array.isArray(lista)
         ? lista.filter(r => r && /^\d{4}-\d{2}-\d{2}$/.test(r.date))
-               .map(r => ({date: r.date, cestas: Math.max(0, parseInt(r.cestas) || 0), refeicoes: Math.max(0, parseInt(r.refeicoes) || 0)}))
+               .map(r => ({date: r.date, cestas: Math.max(0, parseInt(r.cestas) || 0), refeicoes: Math.max(0, parseInt(r.refeicoes) || 0), brinquedos: Math.max(0, parseInt(r.brinquedos) || 0)}))
         : null;
 
     let records;
@@ -68,7 +68,7 @@
             inp.value = Math.max(0, (parseInt(inp.value) || 0) + +b.dataset.d);
         });
     });
-    ['cestas','refeicoes'].forEach(id => {
+    ['cestas','refeicoes','brinquedos'].forEach(id => {
         $(id).addEventListener('input', e => {
             if(e.target.value <0) e.target.value =0;
         });
@@ -81,20 +81,22 @@
         $('date').value = todayISO();
         $('cestas').value = 0;
         $('refeicoes').value = 0;
+        $('brinquedos').value = 0;
         $('salvarLabel').textContent = 'Salvar Registro';
     }
     $('salvar').addEventListener('click', () =>{
         const date = $('date').value;
         const cestas = parseInt($('cestas').value) || 0;
         const refeicoes = parseInt($('refeicoes').value) || 0;
+        const brinquedos = parseInt($('brinquedos').value) || 0;
         if (!date) return mensagem('Informe a data do atendimento.', 'err');
-        if (cestas === 0 && refeicoes === 0) return mensagem('Informe ao menos uma cesta ou uma refeição.', 'err');
+        if (cestas === 0 && refeicoes === 0 && brinquedos === 0) return mensagem('Informe ao menos uma cesta, uma refeição ou um brinquedo.', 'err');
 
         const dup = records.find(r => r.date === date && r.date !== editing);
         if (dup && !confirm(`Já existe um registro em ${br(date)}. Deseja substituí-lo?`)) return;
 
         records = records.filter(r => r.date !== date && r.date !== editing);
-        records.push({date, cestas, refeicoes});
+        records.push({date, cestas, refeicoes, brinquedos});
         records.sort((a,b) => b.date.localeCompare(a.date));
         persist();
 
@@ -117,7 +119,7 @@
 
         $('linhas').innerHTML = slice.length ? slice.map(r => `
         <tr>
-            <td>${br(r.date)}</td><td>${r.cestas}</td><td>${r.refeicoes}</td>
+            <td>${br(r.date)}</td><td>${r.cestas}</td><td>${r.refeicoes}</td><td>${r.brinquedos}</td>
             <td><div class="acoes">
                 <button class="btn edit" data-edit="${r.date}"><svg viewBox="0 0 24 24"><use href="#i-edit"/></svg><span>Editar</span></button>
                 <button class="btn deletar" data-del="${r.date}"><svg viewBox="0 0 24 24"><use href="#i-trash"/></svg><span>Excluir</span></button></div></td>
@@ -133,6 +135,7 @@
         //relatório
         $('rCestas').textContent = list.reduce((s,r) => s + r.cestas, 0);
         $('rRefeicoes').textContent = list.reduce((s,r) => s + r.refeicoes, 0);
+        $('rBrinquedos').textContent = list.reduce((s,r) => s + r.brinquedos, 0);
         $('rDias').textContent = list.length;
     }
 

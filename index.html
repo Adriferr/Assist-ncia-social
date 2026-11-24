@@ -12,10 +12,8 @@
 
 
     <!-- login -->
-     <!--
     <section class="login" id="login">
         <div class="login-art">
-            <svg viewBox="0 0 120 100" aria-hidden="true" style="fill:#fff"><use href="#i-heart"/></svg>
             <img class="logoLogin" src="img/logo-g10-cream.png" alt="">
             <p>Aqui a gente soma!</p>
         </div>
@@ -33,7 +31,7 @@
             <div class="mensagem err" id="lMsg" role="alert"></div>
             <button class="salvar" type="submit">Entrar</button>
         </form>
-    </section> -->
+    </section>
 
     <!--ícones-->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -105,6 +103,15 @@
                                 </div>
                                 <small>Quantidade de pessoas</small>
                             </div>
+                            <div class="contador contadorBrinquedos">
+                                <h3>Brinquedos</h3>
+                                <div class="botoes">
+                                    <button type="button" data-t="brinquedos" data-d="-1" aria-label="Diminuir brinquedos">-</button>
+                                    <input type="number" id="brinquedos" min="0" value="0" aria-label="Quantidade de brinquedos">
+                                    <button type="button" data-t="brinquedos" data-d="1" aria-label="Aumentar brinquedos">+</button>
+                                </div>
+                                <small>Quantidade de Brinquedos</small>
+                            </div>
                         </div>
                         <button type="button" class="salvar" id="salvar"><span id="salvarLabel">Salvar Registro</span></button>
                         <div class="mensagem" id="mensagem" role="status"></div>
@@ -125,6 +132,7 @@
                                 <th><span>Data</span></th>
                                 <th><span>Cestas Básicas</span></th>
                                 <th><span>Refeições</span></th>
+                                <th><span>Brinquedos</span></th>
                                 <th>ações</th>
                             </tr></thead>
                             <tbody id="linhas"></tbody>
@@ -153,6 +161,7 @@
                     <div class="sumario">
                         <div><b id="rCestas">0</b>Cestas no mês filtrado</div>
                         <div><b id="rRefeicoes">0</b>Refeições no mês filtrado</div>
+                        <div><b id="rBrinquedos">0</b>Brinquedos no mês filtrado</div>
                         <div><b id="rDias">0</b>Dias com atendimento</div>
                     </div>
 
@@ -179,7 +188,7 @@
                         <h2>Configuração</h2>
                     </div>
                     <div class="painel-corpo">
-                        <button type="button" class="btn-deletar" id="clearAll">Apagar todos os registros</button>
+                        <button type="button" class="btn deletar" id="clearAll">Apagar todos os registros</button>
                     </div>
                 </div>
             </section>
